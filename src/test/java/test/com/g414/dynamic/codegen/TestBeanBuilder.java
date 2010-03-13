@@ -17,10 +17,9 @@
  */
 package test.com.g414.dynamic.codegen;
 
-import junit.framework.TestCase;
-
 import org.example.test.Example1;
 import org.example.test.Example2;
+import org.testng.Assert;
 
 import com.g414.dynamic.codegen.BeanBuilder;
 import com.g414.dynamic.codegen.ClassLoadUtil;
@@ -28,28 +27,28 @@ import com.g414.dynamic.codegen.ClassLoadUtil;
 /**
  * Exercise the deserializer...
  */
-public class TestBeanBuilder extends TestCase {
+public class TestBeanBuilder {
 	public void testExample() throws Exception {
-		Class class1 = materializeClass("Ex1", Example1.class);
+		Class<?> class1 = materializeClass("Ex1", Example1.class);
 		Example1 inst1 = (Example1) class1.newInstance();
 
 		class1.getMethod("setA", Integer.class).invoke(inst1, -101);
 		class1.getMethod("setB", String.class).invoke(inst1, "TestString");
 
-		assertEquals(inst1.getA().toString(), "-101");
-		assertEquals(inst1.getB(), "TestString");
+		Assert.assertEquals(inst1.getA().toString(), "-101");
+		Assert.assertEquals(inst1.getB(), "TestString");
 
-		Class class2 = materializeClass("Ex2", Example2.class);
+		Class<?> class2 = materializeClass("Ex2", Example2.class);
 		Example2 inst2 = (Example2) class2.newInstance();
 
 		class2.getMethod("setC", Long.class).invoke(inst2, 909L);
-		assertEquals(inst2.getC().toString(), "909");
+		Assert.assertEquals(inst2.getC().toString(), "909");
 	}
 
-	private Class materializeClass(String name, Class clazz) {
+	private Class<?> materializeClass(String name, Class<?> clazz) {
 		BeanBuilder builder = new BeanBuilder(name);
 		builder.implement(clazz);
-		Class out = ClassLoadUtil.loadClass(name, builder.build());
+		Class<?> out = ClassLoadUtil.loadClass(name, builder.build());
 		return out;
 	}
 }

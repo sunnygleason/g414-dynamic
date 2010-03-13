@@ -19,46 +19,47 @@ package test.com.g414.dynamic.proxy;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
 import org.example.test.Example1;
 import org.example.test.Example2;
 import org.example.test.Example3;
 import org.example.test.Example3Impl;
 import org.example.test.Example4;
 import org.example.test.Example4Impl;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.g414.dynamic.proxy.DispatchProxy;
 
-public class TestDispatchProxy extends TestCase {
-	public void testMaskProxy() {
-		Example3Impl impl1 = new Example3Impl();
-		Example4Impl impl2 = new Example4Impl();
+@Test
+public class TestDispatchProxy {
+    public void testMaskProxy() {
+        Example3Impl impl1 = new Example3Impl();
+        Example4Impl impl2 = new Example4Impl();
 
-		Object compound = DispatchProxy.newProxyInstance(Arrays
-				.asList(new Class[] { Example1.class, Example2.class,
-						Example3.class, Example4.class }), Arrays.asList(impl1,
-				impl2));
+        Object compound = DispatchProxy.newProxyInstance(Arrays
+                .asList(new Class[] { Example1.class, Example2.class,
+                        Example3.class, Example4.class }), Arrays.asList(impl1,
+                impl2));
 
-		assertEquals("-1", impl2.getA().toString());
+        Assert.assertEquals("-1", impl2.getA().toString());
 
-		Example1 ex1 = (Example1) compound;
-		assertEquals("4660", ex1.getA().toString());
-		assertEquals("Foo", ex1.getB());
+        Example1 ex1 = (Example1) compound;
+        Assert.assertEquals("4660", ex1.getA().toString());
+        Assert.assertEquals("Foo", ex1.getB());
 
-		Example2 ex2 = (Example2) compound;
-		assertEquals("305419896", ex2.getC().toString());
+        Example2 ex2 = (Example2) compound;
+        Assert.assertEquals("305419896", ex2.getC().toString());
 
-		Example3 ex3 = (Example3) compound;
-		assertEquals("4660", ex3.getA().toString());
-		assertEquals("Foo", ex3.getB());
-		assertEquals("305419896", ex3.getC().toString());
+        Example3 ex3 = (Example3) compound;
+        Assert.assertEquals("4660", ex3.getA().toString());
+        Assert.assertEquals("Foo", ex3.getB());
+        Assert.assertEquals("305419896", ex3.getC().toString());
 
-		Example4 ex4 = (Example4) compound;
-		// Example4 impl2 getA() shadowed by Example1 / impl1 getA()
-		assertEquals("4660", ex4.getA().toString());
-		assertEquals("4", ex4.getValue().toString());
-		ex4.doIt();
-		ex4.setAnotherValue();
-	}
+        Example4 ex4 = (Example4) compound;
+        // Example4 impl2 getA() shadowed by Example1 / impl1 getA()
+        Assert.assertEquals("4660", ex4.getA().toString());
+        Assert.assertEquals("4", ex4.getValue().toString());
+        ex4.doIt();
+        ex4.setAnotherValue();
+    }
 }

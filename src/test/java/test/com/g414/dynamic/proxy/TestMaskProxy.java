@@ -17,29 +17,30 @@
  */
 package test.com.g414.dynamic.proxy;
 
-import junit.framework.TestCase;
-
 import org.example.test.Example1;
 import org.example.test.Example2;
 import org.example.test.Example3;
 import org.example.test.Example3Impl;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.g414.dynamic.proxy.MaskProxy;
 
-public class TestMaskProxy extends TestCase {
+@Test
+public class TestMaskProxy {
 	public void testMaskProxy() {
 		Example3Impl impl = new Example3Impl();
 
 		Example1 ex1 = MaskProxy.newProxyInstance(Example1.class, impl);
-		assertEquals("4660", ex1.getA().toString());
-		assertEquals("Foo", ex1.getB());
+		Assert.assertEquals("4660", ex1.getA().toString());
+		Assert.assertEquals("Foo", ex1.getB());
 
 		Example2 ex2 = MaskProxy.newProxyInstance(Example2.class, impl);
-		assertEquals("305419896", ex2.getC().toString());
+		Assert.assertEquals("305419896", ex2.getC().toString());
 
 		Example3 ex3 = MaskProxy.newProxyInstance(Example3.class, impl);
-		assertEquals("4660", ex3.getA().toString());
-		assertEquals("Foo", ex3.getB());
-		assertEquals("305419896", ex3.getC().toString());
+		Assert.assertEquals("4660", ex3.getA().toString());
+		Assert.assertEquals("Foo", ex3.getB());
+		Assert.assertEquals("305419896", ex3.getC().toString());
 	}
 }
