@@ -35,14 +35,14 @@ public class BeanFunctions implements Opcodes {
 	}
 
 	public static void createField(ClassWriter cw, String fieldName,
-			Class fieldType) {
+			Class<?> fieldType) {
 		String javaType = JavaNameTypeUtils.getLValue(fieldType);
 		FieldVisitor fv = cw.visitField(0, fieldName, javaType, null, null);
 		fv.visitEnd();
 	}
 
 	public static void createSetter(ClassWriter cw, String internalClassName,
-			String fieldName, Class fieldType) {
+			String fieldName, Class<?> fieldType) {
 		String methodName = JavaNameTypeUtils.getSetterName(fieldName);
 		String returnType = JavaNameTypeUtils.getLValue(fieldType);
 		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, methodName, "("
@@ -56,7 +56,7 @@ public class BeanFunctions implements Opcodes {
 	}
 
 	public static void createGetter(ClassWriter cw, String internalClassName,
-			String fieldName, Class fieldType) {
+			String fieldName, Class<?> fieldType) {
 		String methodName = JavaNameTypeUtils.getGetterName(fieldName);
 		String returnType = JavaNameTypeUtils.getLValue(fieldType);
 		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, methodName, "()"
@@ -69,8 +69,8 @@ public class BeanFunctions implements Opcodes {
 	}
 
 	public static void createThrow(ClassWriter cw, String internalClassName,
-			String methodName, Class[] inTypes, Class returnType,
-			Class exceptionType) {
+			String methodName, Class<?>[] inTypes, Class<?> returnType,
+			Class<?> exceptionType) {
 		String rTypeName = JavaNameTypeUtils.getLValue(returnType);
 		String exceptionName = JavaNameTypeUtils
 				.getInternalClassName(exceptionType.getName());

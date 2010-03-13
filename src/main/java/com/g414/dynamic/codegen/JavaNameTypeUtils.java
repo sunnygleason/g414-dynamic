@@ -31,7 +31,7 @@ public class JavaNameTypeUtils {
 		return propName;
 	}
 
-	public static String getLValue(Class fieldType) {
+	public static String getLValue(Class<?> fieldType) {
 		if (fieldType == null || fieldType.equals(void.class)) {
 			return "V";
 		}
@@ -52,10 +52,10 @@ public class JavaNameTypeUtils {
 				+ fieldName.substring(1);
 	}
 
-	public static String getArgumentsType(Class[] inTypes) {
+	public static String getArgumentsType(Class<?>[] inTypes) {
 		StringBuilder list = new StringBuilder();
 
-		for (Class clazz : inTypes) {
+		for (Class<?> clazz : inTypes) {
 			list.append(getLValue(clazz));
 		}
 

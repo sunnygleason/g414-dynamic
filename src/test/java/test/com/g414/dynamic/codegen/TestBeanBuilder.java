@@ -20,6 +20,7 @@ package test.com.g414.dynamic.codegen;
 import org.example.test.Example1;
 import org.example.test.Example2;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.g414.dynamic.codegen.BeanBuilder;
 import com.g414.dynamic.codegen.ClassLoadUtil;
@@ -27,6 +28,7 @@ import com.g414.dynamic.codegen.ClassLoadUtil;
 /**
  * Exercise the deserializer...
  */
+@Test
 public class TestBeanBuilder {
 	public void testExample() throws Exception {
 		Class<?> class1 = materializeClass("Ex1", Example1.class);
