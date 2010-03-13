@@ -19,7 +19,7 @@ package org.example.test;
 
 /** Compound interface */
 public interface Example3 extends Example1, Example2 {
-	int getD();
+    int getD();
 
-	Example1 getNested();
+    Example1 getNested();
 }

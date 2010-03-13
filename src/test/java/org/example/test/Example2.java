@@ -19,5 +19,5 @@ package org.example.test;
 
 /** Basic interface with one method */
 public interface Example2 {
-	public Long getC();
+    public Long getC();
 }

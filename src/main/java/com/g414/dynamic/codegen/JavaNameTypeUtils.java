@@ -17,48 +17,47 @@
  */
 package com.g414.dynamic.codegen;
 
-
 public class JavaNameTypeUtils {
-	public static String getInternalClassName(String className) {
-		return className.replace(".", "/");
-	}
+    public static String getInternalClassName(String className) {
+        return className.replace(".", "/");
+    }
 
-	public static String getFieldName(String getterMethodName) {
-		char[] name = getterMethodName.substring(3).toCharArray();
-		name[0] = Character.toLowerCase(name[0]);
-		final String propName = new String(name);
+    public static String getFieldName(String getterMethodName) {
+        char[] name = getterMethodName.substring(3).toCharArray();
+        name[0] = Character.toLowerCase(name[0]);
+        final String propName = new String(name);
 
-		return propName;
-	}
+        return propName;
+    }
 
-	public static String getLValue(Class<?> fieldType) {
-		if (fieldType == null || fieldType.equals(void.class)) {
-			return "V";
-		}
-		
-		String plainR = fieldType.getName();
-		String rType = JavaNameTypeUtils.getInternalClassName(plainR);
-		String javaType = "L" + rType + ";";
-		return javaType;
-	}
+    public static String getLValue(Class<?> fieldType) {
+        if (fieldType == null || fieldType.equals(void.class)) {
+            return "V";
+        }
 
-	public static String getGetterName(String fieldName) {
-		return "get" + fieldName.substring(0, 1).toUpperCase()
-				+ fieldName.substring(1);
-	}
+        String plainR = fieldType.getName();
+        String rType = JavaNameTypeUtils.getInternalClassName(plainR);
+        String javaType = "L" + rType + ";";
+        return javaType;
+    }
 
-	public static String getSetterName(String fieldName) {
-		return "set" + fieldName.substring(0, 1).toUpperCase()
-				+ fieldName.substring(1);
-	}
+    public static String getGetterName(String fieldName) {
+        return "get" + fieldName.substring(0, 1).toUpperCase()
+                + fieldName.substring(1);
+    }
 
-	public static String getArgumentsType(Class<?>[] inTypes) {
-		StringBuilder list = new StringBuilder();
+    public static String getSetterName(String fieldName) {
+        return "set" + fieldName.substring(0, 1).toUpperCase()
+                + fieldName.substring(1);
+    }
 
-		for (Class<?> clazz : inTypes) {
-			list.append(getLValue(clazz));
-		}
+    public static String getArgumentsType(Class<?>[] inTypes) {
+        StringBuilder list = new StringBuilder();
 
-		return list.toString();
-	}
+        for (Class<?> clazz : inTypes) {
+            list.append(getLValue(clazz));
+        }
+
+        return list.toString();
+    }
 }

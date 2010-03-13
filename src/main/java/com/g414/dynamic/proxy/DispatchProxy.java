@@ -33,115 +33,115 @@ import java.util.Map;
  */
 @SuppressWarnings("unchecked")
 public class DispatchProxy implements InvocationHandler {
-	private final List<Class> ifaces;
-	private final List<Object> delegates;
-	private final Map<Method, TargetInvocation> dispatchMap;
+    private final List<Class> ifaces;
+    private final List<Object> delegates;
+    private final Map<Method, TargetInvocation> dispatchMap;
 
-	private final InvocationHandler finalHandler;
+    private final InvocationHandler finalHandler;
 
-	public static final InvocationHandler UNSUPPORTED_OPERATION_HANDLER = new InvocationHandler() {
-		public Object invoke(Object proxy, Method method, Object[] args)
-				throws Throwable {
-			throw new UnsupportedOperationException();
-		}
-	};
+    public static final InvocationHandler UNSUPPORTED_OPERATION_HANDLER = new InvocationHandler() {
+        public Object invoke(Object proxy, Method method, Object[] args)
+                throws Throwable {
+            throw new UnsupportedOperationException();
+        }
+    };
 
-	public static Object newProxyInstance(List<Class> ifaces,
-			List<Object> delegates) {
-		return Proxy.newProxyInstance(DispatchProxy.class.getClassLoader(),
-				ifaces.toArray(new Class[ifaces.size()]), new DispatchProxy(
-						ifaces, delegates));
-	}
+    public static Object newProxyInstance(List<Class> ifaces,
+            List<Object> delegates) {
+        return Proxy.newProxyInstance(DispatchProxy.class.getClassLoader(),
+                ifaces.toArray(new Class[ifaces.size()]), new DispatchProxy(
+                        ifaces, delegates));
+    }
 
-	public List<Class> getInterfaces() {
-		return ifaces;
-	}
+    public List<Class> getInterfaces() {
+        return ifaces;
+    }
 
-	public DispatchProxy(List<Class> ifaces, List<Object> delegates) {
-		List<Class> newIfaces = new ArrayList<Class>();
-		newIfaces.addAll(ifaces);
-		this.ifaces = Collections.unmodifiableList(newIfaces);
+    public DispatchProxy(List<Class> ifaces, List<Object> delegates) {
+        List<Class> newIfaces = new ArrayList<Class>();
+        newIfaces.addAll(ifaces);
+        this.ifaces = Collections.unmodifiableList(newIfaces);
 
-		List<Object> newDelegates = new ArrayList<Object>();
-		newDelegates.addAll(delegates);
-		this.delegates = Collections.unmodifiableList(delegates);
+        List<Object> newDelegates = new ArrayList<Object>();
+        newDelegates.addAll(delegates);
+        this.delegates = Collections.unmodifiableList(delegates);
 
-		Map<Method, TargetInvocation> dispatchMap = new LinkedHashMap<Method, TargetInvocation>();
+        Map<Method, TargetInvocation> dispatchMap = new LinkedHashMap<Method, TargetInvocation>();
 
-		for (Class iface : this.ifaces) {
-			for (Method method : iface.getMethods()) {
-				if (!dispatchMap.containsKey(method)) {
-					OBJECT: for (Object object : this.delegates) {
-						try {
-							Method targetMethod = object.getClass().getMethod(
-									method.getName(),
-									method.getParameterTypes());
+        for (Class iface : this.ifaces) {
+            for (Method method : iface.getMethods()) {
+                if (!dispatchMap.containsKey(method)) {
+                    OBJECT: for (Object object : this.delegates) {
+                        try {
+                            Method targetMethod = object.getClass().getMethod(
+                                    method.getName(),
+                                    method.getParameterTypes());
 
-							if (targetMethod != null
-									&& ((method.getReturnType() != null
-											&& targetMethod.getReturnType() != null && targetMethod
-											.getReturnType().equals(
-													method.getReturnType())))
-									|| (method.getReturnType() == null && targetMethod
-											.getReturnType() == null)) {
-								dispatchMap.put(method, new TargetInvocation(
-										targetMethod, object));
-								break OBJECT;
-							}
-						} catch (NoSuchMethodException e) {
-							// ignore
-						}
-					}
-				}
-			}
-		}
+                            if (targetMethod != null
+                                    && ((method.getReturnType() != null
+                                            && targetMethod.getReturnType() != null && targetMethod
+                                            .getReturnType().equals(
+                                                    method.getReturnType())))
+                                    || (method.getReturnType() == null && targetMethod
+                                            .getReturnType() == null)) {
+                                dispatchMap.put(method, new TargetInvocation(
+                                        targetMethod, object));
+                                break OBJECT;
+                            }
+                        } catch (NoSuchMethodException e) {
+                            // ignore
+                        }
+                    }
+                }
+            }
+        }
 
-		this.dispatchMap = Collections.unmodifiableMap(dispatchMap);
-		System.out.println(this.dispatchMap);
-		this.finalHandler = UNSUPPORTED_OPERATION_HANDLER;
-	}
+        this.dispatchMap = Collections.unmodifiableMap(dispatchMap);
+        System.out.println(this.dispatchMap);
+        this.finalHandler = UNSUPPORTED_OPERATION_HANDLER;
+    }
 
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
-		TargetInvocation target = dispatchMap.get(method);
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable {
+        TargetInvocation target = dispatchMap.get(method);
 
-		if (target == null) {
-			if (method.getName().equals("equals") && args.length == 1) {
-				return this.equals(args[0]);
-			} else if (method.getName().equals("hashCode") && args == null) {
-				return this.hashCode();
-			} else if (method.getName().equals("toString") && args == null) {
-				return this.toString();
-			} else {
-				return finalHandler.invoke(proxy, method, args);
-			}
-		}
+        if (target == null) {
+            if (method.getName().equals("equals") && args.length == 1) {
+                return this.equals(args[0]);
+            } else if (method.getName().equals("hashCode") && args == null) {
+                return this.hashCode();
+            } else if (method.getName().equals("toString") && args == null) {
+                return this.toString();
+            } else {
+                return finalHandler.invoke(proxy, method, args);
+            }
+        }
 
-		try {
-			return target.method.invoke(target.object, args);
-		} catch (IllegalArgumentException iae) {
-		} catch (IllegalAccessException iae2) {
-		} catch (InvocationTargetException ite) {
-			throw ite.getTargetException();
-		}
-		// allow SecurityException to go out unchecked
+        try {
+            return target.method.invoke(target.object, args);
+        } catch (IllegalArgumentException iae) {
+        } catch (IllegalAccessException iae2) {
+        } catch (InvocationTargetException ite) {
+            throw ite.getTargetException();
+        }
+        // allow SecurityException to go out unchecked
 
-		return finalHandler.invoke(proxy, method, args);
-	}
+        return finalHandler.invoke(proxy, method, args);
+    }
 
-	public static class TargetInvocation {
-		public final Method method;
-		public final Object object;
+    public static class TargetInvocation {
+        public final Method method;
+        public final Object object;
 
-		public TargetInvocation(Method targetMethod, Object targetObject) {
-			this.method = targetMethod;
-			this.object = targetObject;
-		}
+        public TargetInvocation(Method targetMethod, Object targetObject) {
+            this.method = targetMethod;
+            this.object = targetObject;
+        }
 
-		@Override
-		public String toString() {
-			return "TargetInvocation{method=" + method.toString() + ", object="
-					+ object.toString() + "}";
-		}
-	}
+        @Override
+        public String toString() {
+            return "TargetInvocation{method=" + method.toString() + ", object="
+                    + object.toString() + "}";
+        }
+    }
 }

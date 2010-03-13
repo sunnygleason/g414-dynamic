@@ -22,35 +22,35 @@ package org.example.test;
  * itself).
  */
 public class Example3Impl implements Example3 {
-	public Integer getA() {
-		return Integer.valueOf(0x1234);
-	}
+    public Integer getA() {
+        return Integer.valueOf(0x1234);
+    }
 
-	public String getB() {
-		return "Foo";
-	}
+    public String getB() {
+        return "Foo";
+    }
 
-	public Long getC() {
-		return Long.valueOf(0x12345678L);
-	}
+    public Long getC() {
+        return Long.valueOf(0x12345678L);
+    }
 
-	@Override
-	public int getD() {
-		return 0xCAFEBABE;
-	}
+    @Override
+    public int getD() {
+        return 0xCAFEBABE;
+    }
 
-	@Override
-	public Example1 getNested() {
-		return new Example1() {
-			@Override
-			public String getB() {
-				return "nested";
-			}
+    @Override
+    public Example1 getNested() {
+        return new Example1() {
+            @Override
+            public String getB() {
+                return "nested";
+            }
 
-			@Override
-			public Integer getA() {
-				return -1;
-			}
-		};
-	}
+            @Override
+            public Integer getA() {
+                return -1;
+            }
+        };
+    }
 }

@@ -21,7 +21,7 @@ package org.example.test;
  * Basic interface with 2 methods.
  */
 public interface Example1 {
-	Integer getA();
+    Integer getA();
 
-	String getB();
+    String getB();
 }

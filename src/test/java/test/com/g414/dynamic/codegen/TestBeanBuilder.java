@@ -30,27 +30,27 @@ import com.g414.dynamic.codegen.ClassLoadUtil;
  */
 @Test
 public class TestBeanBuilder {
-	public void testExample() throws Exception {
-		Class<?> class1 = materializeClass("Ex1", Example1.class);
-		Example1 inst1 = (Example1) class1.newInstance();
+    public void testExample() throws Exception {
+        Class<?> class1 = materializeClass("Ex1", Example1.class);
+        Example1 inst1 = (Example1) class1.newInstance();
 
-		class1.getMethod("setA", Integer.class).invoke(inst1, -101);
-		class1.getMethod("setB", String.class).invoke(inst1, "TestString");
+        class1.getMethod("setA", Integer.class).invoke(inst1, -101);
+        class1.getMethod("setB", String.class).invoke(inst1, "TestString");
 
-		Assert.assertEquals(inst1.getA().toString(), "-101");
-		Assert.assertEquals(inst1.getB(), "TestString");
+        Assert.assertEquals(inst1.getA().toString(), "-101");
+        Assert.assertEquals(inst1.getB(), "TestString");
 
-		Class<?> class2 = materializeClass("Ex2", Example2.class);
-		Example2 inst2 = (Example2) class2.newInstance();
+        Class<?> class2 = materializeClass("Ex2", Example2.class);
+        Example2 inst2 = (Example2) class2.newInstance();
 
-		class2.getMethod("setC", Long.class).invoke(inst2, 909L);
-		Assert.assertEquals(inst2.getC().toString(), "909");
-	}
+        class2.getMethod("setC", Long.class).invoke(inst2, 909L);
+        Assert.assertEquals(inst2.getC().toString(), "909");
+    }
 
-	private Class<?> materializeClass(String name, Class<?> clazz) {
-		BeanBuilder builder = new BeanBuilder(name);
-		builder.implement(clazz);
-		Class<?> out = ClassLoadUtil.loadClass(name, builder.build());
-		return out;
-	}
+    private Class<?> materializeClass(String name, Class<?> clazz) {
+        BeanBuilder builder = new BeanBuilder(name);
+        builder.implement(clazz);
+        Class<?> out = ClassLoadUtil.loadClass(name, builder.build());
+        return out;
+    }
 }

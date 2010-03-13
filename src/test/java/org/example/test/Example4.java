@@ -18,11 +18,11 @@
 package org.example.test;
 
 public interface Example4 {
-	public Integer getValue();
+    public Integer getValue();
 
-	public void doIt();
+    public void doIt();
 
-	public void setAnotherValue();
-	
-	public Integer getA();
+    public void setAnotherValue();
+
+    public Integer getA();
 }

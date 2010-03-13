@@ -21,23 +21,23 @@ package org.example.test;
  * Simple implementation class.
  */
 public class Example4Impl implements Example4 {
-	@Override
-	public void doIt() {
-		// do nothing
-	}
+    @Override
+    public void doIt() {
+        // do nothing
+    }
 
-	@Override
-	public Integer getA() {
-		return -1;
-	}
+    @Override
+    public Integer getA() {
+        return -1;
+    }
 
-	@Override
-	public Integer getValue() {
-		return 4;
-	}
+    @Override
+    public Integer getValue() {
+        return 4;
+    }
 
-	@Override
-	public void setAnotherValue() {
-		// do nothing
-	}
+    @Override
+    public void setAnotherValue() {
+        // do nothing
+    }
 }

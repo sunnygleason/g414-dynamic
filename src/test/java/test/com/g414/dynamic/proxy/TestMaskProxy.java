@@ -28,19 +28,19 @@ import com.g414.dynamic.proxy.MaskProxy;
 
 @Test
 public class TestMaskProxy {
-	public void testMaskProxy() {
-		Example3Impl impl = new Example3Impl();
+    public void testMaskProxy() {
+        Example3Impl impl = new Example3Impl();
 
-		Example1 ex1 = MaskProxy.newProxyInstance(Example1.class, impl);
-		Assert.assertEquals("4660", ex1.getA().toString());
-		Assert.assertEquals("Foo", ex1.getB());
+        Example1 ex1 = MaskProxy.newProxyInstance(Example1.class, impl);
+        Assert.assertEquals("4660", ex1.getA().toString());
+        Assert.assertEquals("Foo", ex1.getB());
 
-		Example2 ex2 = MaskProxy.newProxyInstance(Example2.class, impl);
-		Assert.assertEquals("305419896", ex2.getC().toString());
+        Example2 ex2 = MaskProxy.newProxyInstance(Example2.class, impl);
+        Assert.assertEquals("305419896", ex2.getC().toString());
 
-		Example3 ex3 = MaskProxy.newProxyInstance(Example3.class, impl);
-		Assert.assertEquals("4660", ex3.getA().toString());
-		Assert.assertEquals("Foo", ex3.getB());
-		Assert.assertEquals("305419896", ex3.getC().toString());
-	}
+        Example3 ex3 = MaskProxy.newProxyInstance(Example3.class, impl);
+        Assert.assertEquals("4660", ex3.getA().toString());
+        Assert.assertEquals("Foo", ex3.getB());
+        Assert.assertEquals("305419896", ex3.getC().toString());
+    }
 }
